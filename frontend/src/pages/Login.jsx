@@ -1,6 +1,32 @@
 import authImage from "../assets/imgs/auth-image.png"
 import { Link } from "react-router";
+import { useNavigate } from "react-router";
+import { useState } from "react";
+import { useAuthStore } from "../store/authStore";
+import { toast } from "react-toastify";
+
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const { login, error } = useAuthStore();
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    if (email == "" || password =="") {
+      toast.error("Please fill in all required feilds",{autoClose:3000});
+      return
+    }
+    try {
+      const loginData = await login(email, password);
+      navigate("/");
+      console.log(loginData)
+      } catch (err) {
+        toast.error(error);
+    }
+  
+
+  }
   return (
     <div className="grid gap-25 grid-flow-row-dense grid-cols-12 items-center mt-14">
       <div className="bg-[#CBE4E8] col-span-7 pt-29 pl-28 rounded-r-sm h-155">
@@ -9,12 +35,14 @@ const Login = () => {
       <div className="col-span-4">
         <h1 className="text-4xl mb-2.5">Log in to Exclusive</h1>
         <p className="text-neutral-500">Enter your details below</p>
-        <form>
+        <form onSubmit={handleLogin}>
           <div>
             <input
               className="w-full border-b-1  mt-8 pt-2 placeholder:text-neutral-400 focus:outline-0  border-neutral-400"
               type="text"
               placeholder="Email or Phone Number"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <div>
@@ -23,6 +51,8 @@ const Login = () => {
               type="password"
               placeholder="Password"
               autoComplete=""
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="mt-9 flex justify-between items-center">

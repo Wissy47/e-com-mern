@@ -2,7 +2,7 @@
   "name": "e-com-mern",
   "version": "1.0.0",
   "description": "This is an E-commerce MERN project",
-  "main": "server.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "dev": "nodemon run backend/server.js"
@@ -23,6 +23,7 @@
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-async-handler": "^1.2.0",

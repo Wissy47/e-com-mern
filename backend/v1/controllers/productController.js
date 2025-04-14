@@ -28,14 +28,15 @@ const createProduct = asyncHandler(async (req, res) => {
       price: inputs.price,
       description: inputs.description,
       category: inputs.category,
+      colors: inputs.colors,
+      sizes: inputs.sizes,
       image:[]
     };   
     req.files.map((image)=>{
         product.image.push(req.protocol+"//"+req.get("host")+"/"+image.path);
     }) 
     // product.image = inputs.image;
-    product.colors = inputs.colors;
-    product.sizes = inputs.sizes;
+   
 
   const newProduct = new Product(product)
   await newProduct.save();

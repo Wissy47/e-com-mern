@@ -1,9 +1,11 @@
 import jwt from "jsonwebtoken";
+import asyncHandler from "express-async-handler";
 
 import User from "../models/userModel.js";
+import { getAuthUserID } from "../utils/userStatus.js";
 
 
-const login = async (req, res)=>{
+const login = asyncHandler (async (req, res)=>{
     const {email, password} = req.body;
     const user = await User.findOne({email});
     if(!user){
@@ -20,15 +22,11 @@ const login = async (req, res)=>{
        sameSite: "strict",
        maxAge: 24 * 60 * 60 * 1000,
      });
-     
-    res.status(200).json({ user:{
-        id: user._id,
-        name: user.name,
-        email: user.email
-    }});
-}//login
+     delete user.password
+    res.status(200).json({ user });
+})//login
 
-const signup = async (req, res) => {
+const signup = asyncHandler( async (req, res) => {
     const{name, email, password} = req.body;
     if (!name || !email|| !password) {
          return res.status(400).json({ message: "One or more required field(s) are missing" });
@@ -47,15 +45,30 @@ const signup = async (req, res) => {
             sameSite: 'strict'
         }
     );
-    res.status(201).json({token, user:{
-        id: user._id,
-        name: user.name,
-        email: user.email
-        }}
-    );
-}
+    delete user.password;
+    res.status(201).json({ user });
+}); // signup
+
+const logout = asyncHandler( 
+    async (req, res) => {
+       res.clearCookie("token")
+    }
+)
+const authUser = asyncHandler(
+    async (req, res) => {
+        const id = getAuthUserID()
+        const user = await User.findById(id)
+        if(!user){
+            return res.status(404).json({message: "User not found"})
+        }
+        delete user.password // remove the password field
+        res.status(200).json({user})
+    }
+)
 
 export{
     login,
-    signup
+    signup,
+    logout,
+    authUser
 }

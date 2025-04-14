@@ -20,7 +20,6 @@ const Login = () => {
     try {
       const loginData = await login(email, password);
       navigate("/");
-      console.log(loginData)
       } catch (err) {
         toast.error(error);
     }

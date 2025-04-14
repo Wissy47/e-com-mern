@@ -8,13 +8,15 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import { ToastContainer } from "react-toastify";
+import AuthenticatedRoute from "./utils/AuthenticatedRoute";
+import ProductUpload from "./pages/ProductUpload";
 
 
 
 const App = () => {
   return (
     <>
-    <ToastContainer limit={3} />
+      <ToastContainer limit={3} />
       <Topbar />
       <Navbar />
       <Routes>
@@ -23,7 +25,9 @@ const App = () => {
         <Route path="/signup" element={<Signup />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
-        {/* <Route path="/products" element={<Blog />} />
+        <Route path="/products-upload" element={<ProductUpload />} />
+        <Route element={<AuthenticatedRoute />}></Route>
+        {/* 
         <Route path="/products/:id" element={<BlogDetails />} /> */}
       </Routes>
       <Footer />

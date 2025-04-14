@@ -2,6 +2,7 @@ import authImage from "../assets/imgs/auth-image.png"
 import { Link, useNavigate} from "react-router"
 import { useAuthStore } from "../store/authStore";
 import { useState } from "react";
+import { toast } from "react-toastify";
 const Signup = () => {
   const {signup, error} = useAuthStore();
   const [name , setName] = useState("")
@@ -10,11 +11,15 @@ const Signup = () => {
   
   const handleSubmit = async(e)=>{
     e.preventDefault();
-    try{
-      await signup(name, email, password)
-    }catch(err){
-      console.log(err)
-    }
+       if (name == "" || email == "" || password == "") {
+         toast.error("Please fill in all required feilds", { autoClose: 3000 });
+         return;
+       }
+      try{
+        await signup(name, email, password)
+      }catch(e){
+        toast.error(error)
+      }
 
   }
   return (
@@ -55,7 +60,7 @@ const Signup = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div className="mt-9" draggable >
+          <div className="mt-9" >
             <button className="text-center w-full bg-[#EA4335] text-white rounded-sm py-3 cursor-pointer">
               Create Account
             </button>

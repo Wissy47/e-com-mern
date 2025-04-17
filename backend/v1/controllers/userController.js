@@ -22,8 +22,9 @@ const login = asyncHandler (async (req, res)=>{
        sameSite: "strict",
        maxAge: 24 * 60 * 60 * 1000,
      });
-     delete user.password
-    res.status(200).json({ user });
+     const authUser = {...user._doc}
+     delete authUser.password
+    res.status(200).json({ user: authUser });
 })//login
 
 const signup = asyncHandler( async (req, res) => {
@@ -45,8 +46,9 @@ const signup = asyncHandler( async (req, res) => {
             sameSite: 'strict'
         }
     );
-    delete user.password;
-    res.status(201).json({ user });
+    const authUser = { ...user._doc };
+    delete authUser.password;
+    res.status(201).json({ user: authUser });
 }); // signup
 
 const logout = asyncHandler( 
@@ -57,7 +59,7 @@ const logout = asyncHandler(
 const authUser = asyncHandler(
     async (req, res) => {
         const id = getAuthUserID()
-        const user = await User.findById(id)
+        const user = await User.findById(id).lean()
         if(!user){
             return res.status(404).json({message: "User not found"})
         }

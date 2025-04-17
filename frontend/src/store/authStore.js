@@ -34,7 +34,7 @@ const useAuthStore = create((set) => ({
     set({ user: null, isLoading: true, error: null, message: null });
     try {
       const response = await axios.post(`${UserApi}login`, { email, password });
-      const {user} = response.data.user;
+      const user = response.data.user;
       set({ user, isLoading: false, error: null });
       return user;
     } catch (err) {

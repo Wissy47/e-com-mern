@@ -31,16 +31,28 @@ const createProduct = asyncHandler(async (req, res) => {
       colors: inputs.colors,
       sizes: inputs.sizes,
       image:[]
-    };   
+    };  
+    for (const [key, value] of Object.entries(inputs)) {
+        if(key === "sizes") continue;
+        if(value.length === 0){
+            res.status(400).json({message: `${key} is required`});
+            return;
+        }
+    }
+    if (req.files === undefined || req.files.length == 0) {
+      return res
+        .status(400)
+        .json({ message: "Please upload at least one image" });
+    } 
     req.files.map((image)=>{
-        product.image.push(req.protocol+"//"+req.get("host")+"/"+image.path);
+        product.image.push(req.protocol+"://"+req.get("host")+"/"+image.path);
     }) 
     // product.image = inputs.image;
    
 
   const newProduct = new Product(product)
   await newProduct.save();
-  res.status(201).json(newProduct);
+  res.status(201).json({product: newProduct, message: "Product added successfully"});
 });//create product
 
 const updateProduct =asyncHandler( async (req, res)=>{

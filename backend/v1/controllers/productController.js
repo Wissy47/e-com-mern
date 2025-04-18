@@ -3,7 +3,7 @@ import asyncHandler from "express-async-handler";
 import fs from "fs";
 
 const getProducts = asyncHandler( async (req, res)=>{
-    const products = Product.find();
+    const products = await Product.find();
     res.status(200).json(products);
 });//get all products
 const getProduct = asyncHandler( async (req, res)=>{

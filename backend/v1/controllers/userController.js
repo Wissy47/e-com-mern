@@ -59,11 +59,11 @@ const logout = asyncHandler(
 const authUser = asyncHandler(
     async (req, res) => {
         const id = getAuthUserID()
-        const user = await User.findById(id).lean()
+        const user = await User.findById(id).select("-password");
         if(!user){
             return res.status(404).json({message: "User not found"})
         }
-        delete user.password // remove the password field
+        //delete user.password // remove the password field
         res.status(200).json({user})
     }
 )

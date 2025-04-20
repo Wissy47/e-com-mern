@@ -10,6 +10,7 @@ import Contact from "./pages/Contact";
 import { ToastContainer } from "react-toastify";
 import AuthenticatedRoute from "./utils/AuthenticatedRoute";
 import ProductUpload from "./pages/ProductUpload";
+import Products from "./pages/Products";
 
 
 
@@ -26,6 +27,7 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/products-upload" element={<ProductUpload />} />
+        <Route path="/products" element={<Products />} />
         <Route element={<AuthenticatedRoute />}></Route>
         {/* 
         <Route path="/products/:id" element={<BlogDetails />} /> */}

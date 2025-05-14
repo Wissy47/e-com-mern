@@ -9,8 +9,10 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import { ToastContainer } from "react-toastify";
 import AuthenticatedRoute from "./utils/AuthenticatedRoute";
+import AuthenticatedAdminRoute from "./utils/AuthenticatedAdminRoute";
 import ProductUpload from "./pages/ProductUpload";
 import Products from "./pages/Products";
+import AdminDashboard from "./pages/AdminDashboard";
 
 
 
@@ -29,6 +31,10 @@ const App = () => {
         <Route path="/products-upload" element={<ProductUpload />} />
         <Route path="/products" element={<Products />} />
         <Route element={<AuthenticatedRoute />}></Route>
+        {/* Auth Admin Route */}
+        <Route element={<AuthenticatedAdminRoute />}>
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+        </Route>
         {/* 
         <Route path="/products/:id" element={<BlogDetails />} /> */}
       </Routes>
